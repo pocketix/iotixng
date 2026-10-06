@@ -8,6 +8,7 @@ import siblings from "../../iotix-shared-tests/fixtures/programs/siblings.json";
 import duplicateParams from "../../iotix-shared-tests/fixtures/programs/duplicateParams.json";
 import structureParams from "../../iotix-shared-tests/fixtures/programs/structureParams.json";
 import empty from "../../iotix-shared-tests/fixtures/programs/empty.json";
+import write from "../../iotix-shared-tests/fixtures/programs/write.json";
 
 // Shared, framework-agnostic assertions — see iotix-shared-tests/README.md
 import * as selectorsModule from "../../iotix-shared-tests/scenarios/selectors";
@@ -534,6 +535,35 @@ describe("IotixVpCmdStatementComponent structure param edit propagation (shared 
 
     scenarios.editsStructureParamAndEmitsProgramChange(sel, {
       value: "42",
+      // IotixVpCmdStatementComponent.onInputChange() debounces 1000ms before
+      // committing to statements.params and calling update().
+      commit: () => cy.wait(1200),
+    });
+  });
+});
+
+// A write is declared in the language as an ordinary "cmd" statement with
+// "structure" params [reference, value] - no write-specific editor code
+// exists, so these prove the existing structure-param path is enough.
+describe("Write statement (shared cross-repo scenario)", () => {
+  it("renders a write with its bound reference and value", () => {
+    mountEditor(write);
+    scenarios.rendersWriteStatement(sel, { title: "Write", reference: "1.temperature", value: "21" });
+  });
+
+  it("emits an updated program after editing the written value", () => {
+    cy.mount(IotixVpProgramComponent, {
+      imports: [IotixVpModule],
+      componentProperties: {
+        program: write,
+        language: language,
+        settings: { visualEditor: { enabled: true }, common: { manualSync: false } },
+        onProgramChange: createOutputSpy("onProgramChange"),
+      },
+    });
+
+    scenarios.editsStructureParamAndEmitsProgramChange(sel, {
+      value: "25",
       // IotixVpCmdStatementComponent.onInputChange() debounces 1000ms before
       // committing to statements.params and calling update().
       commit: () => cy.wait(1200),

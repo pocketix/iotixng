@@ -133,6 +133,27 @@ const defaultMetaLanguage = {
         "enableCondition": false
       }
     },
+    "write": {
+      "name": "write",
+      "component": "cmd",
+      "label": "Write",
+      "icon": "pi-pencil",
+      "color": "white",
+      "backgroundColor": "#7FB77E",
+      "avoidParents": [
+        "fork",
+        "switch"
+      ],
+      "extensions": {
+        "params": {
+          "type": "structure",
+          "defs": [
+            { "name": "reference", "type": "string" },
+            { "name": "value", "type": "string" }
+          ]
+        }
+      }
+    },
     "PowerStrip.1": {
       "name": "PowerStrip.1",
       "component": "cmd",

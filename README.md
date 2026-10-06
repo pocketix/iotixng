@@ -46,6 +46,29 @@ The app provides a visual editor for creating and managing automation rules. Use
 - Integrate supported smart home devices into workflows
 - Save, test, and iterate on automation flows without writing code
 
+### Writing parameters
+The editor has no special statement for writing a device parameter. Declare a write as an ordinary `cmd` statement named `write`, with `structure` params `reference` and `value`:
+
+```json
+"write": {
+  "name": "write",
+  "component": "cmd",
+  "label": "Write",
+  "icon": "pi-pencil",
+  "extensions": {
+    "params": {
+      "type": "structure",
+      "defs": [
+        { "name": "reference", "type": "string" },
+        { "name": "value", "type": "string" }
+      ]
+    }
+  }
+}
+```
+
+The editor saves it as `{"name": "write", "params": ["<reference>", "<value>"]}`, which [iotix-node](https://github.com/pocketix/iotix-node) evaluates as a parameter write. The value is stored exactly as typed, as a string.
+
 ## **Related Projects**
 - 🔗 [vpl-for-things](https://github.com/pocketix/vpl-for-things) — WIP version of new editor built in Lit compatible with IoTiX v2 language
 - 🔗 [iotix-react](https://github.com/pocketix/iotix-react) — React version of the editor
