@@ -29,3 +29,4 @@ jobs:
 
       - run: npm run install:all
       - run: npm run test:component
+      - run: npm run test:e2e
