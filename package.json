@@ -6,6 +6,7 @@
     "test": "ng test",
     "build": "ng build",
     "install:all": "npm i",
+    "postinstall": "node scripts/write-api-base-url.js",
     "prestart:demo": "npm run build:lib && node scripts/write-api-base-url.js",
     "start:demo": "ng serve demo",
     "prebuild:demo": "npm run build:lib && node scripts/write-api-base-url.js",

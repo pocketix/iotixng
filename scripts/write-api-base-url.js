@@ -1,5 +1,6 @@
 // Writes the demo backend's base URL (the API_BASE_URL environment variable) to
-// demo/src/app/util/api-base-url.ts before the demo is built, served or tested.
+// demo/src/app/util/api-base-url.ts on install and before the demo is built,
+// served or tested, so the file exists even when ng is run directly.
 // Empty means the demo runs on its bundled snapshot and has no Evaluate button.
 // The Angular browser builder has no other way to pass a build-time value in.
 
