@@ -12,8 +12,7 @@ import {
 import {Group} from "../../generated/models/group";
 import {Program} from "../../generated/models/program";
 import {Version} from '../../generated/models';
-import {GroupService} from "../../generated/services/group.service";
-import {ProgramService} from "../../generated/services/program.service";
+import {DemoBackend} from "../../util/backend";
 
 @Component({
     selector: 'app-more',
@@ -46,7 +45,7 @@ export class MoreComponent implements OnInit {
     @Output() onCapabilitiesChange = new EventEmitter<any>();
     @Output() onVariablesChange = new EventEmitter<IoTiXVPVariable[]>();
 
-    constructor(private groupService: GroupService, private programService: ProgramService) {}
+    constructor(public backend: DemoBackend) {}
 
     ngOnInit(): void {
         this.fetchGroups();
@@ -63,7 +62,7 @@ export class MoreComponent implements OnInit {
     }
 
     fetchGroups(): void {
-        this.groupService.getAllGroups({includeDevices: false}).toPromise().then(groupsFromApi => {
+        this.backend.getAllGroups().then(groupsFromApi => {
             this.groups = groupsFromApi;
         }).catch(error => {
             this.groupsError = error.message;
@@ -73,7 +72,7 @@ export class MoreComponent implements OnInit {
     onGroupSelected(): void {
         if (!this.selectedGroup) return;
 
-        this.groupService.getGroup({id: this.selectedGroup.id, includeDevices: false}).toPromise().then(groupFromApi => {
+        this.backend.getGroup(this.selectedGroup.id).then(groupFromApi => {
             this.groupById = groupFromApi;
 
             const newVariables = groupFromApi.devices.flatMap(createVariablesFromDevice);
@@ -85,7 +84,6 @@ export class MoreComponent implements OnInit {
             this.onVariablesChange.emit(newVariables);
             this.onCapabilitiesChange.emit(newCapabilities);
 
-            this.setActiveProgram(0);
             this.fetchPrograms();
         }).catch(error => {
             this.groupsByIdError = error.message;
@@ -95,7 +93,7 @@ export class MoreComponent implements OnInit {
     fetchPrograms(): void {
         if (!this.selectedGroup) return;
 
-        this.programService.getProgramOfGroup({id: this.selectedGroup.id}).toPromise().then(programsFromApi => {
+        this.backend.getProgramOfGroup(this.selectedGroup.id).then(programsFromApi => {
             this.programs = programsFromApi.map(program => ({
                 ...program,
                 data: serializedToReadableCapabilityAndVariablesReplacer(program.data, this.capabilities, this.variables)
@@ -110,10 +108,10 @@ export class MoreComponent implements OnInit {
         const selected = this.programs[index];
         this.activeProgramIndex = index;
 
-        if (selected.version === this.currentMetaLanguageVersion) return;
+        if (!selected || selected.version === this.currentMetaLanguageVersion) return;
 
         this.currentMetaLanguageVersion = selected.version;
-        this.programService.getMetaLanguage({version: selected.version}).toPromise().then(metaLang => {
+        this.backend.getMetaLanguage(selected.version).then(metaLang => {
             this.metaLanguage = metaLang;
         }).catch(error => {
             this.groupsByIdError = error.message;

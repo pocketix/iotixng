@@ -1,5 +1,5 @@
 # **iotixng**
-A block- and form-based visual programming editor for smart home automation built for Angular [Try it out](https://pocketixng.pocketix.org/)!
+A block- and form-based visual programming editor for smart home automation built for Angular [Try it out](https://pocketix.github.io/iotixng/)!
 
 ## **Overview**
 **iotixng** is part of the broader **IoTiX** project — a visual programming language (VPL) designed for automating IoT and smart home devices. It enables users to design automation flows through drag-and-drop blocks and configurable forms, making it approachable for non-programmers.
@@ -68,6 +68,19 @@ The editor has no special statement for writing a device parameter. Declare a wr
 ```
 
 The editor saves it as `{"name": "write", "params": ["<reference>", "<value>"]}`, which [iotix-node](https://github.com/pocketix/iotix-node) evaluates as a parameter write. The value is stored exactly as typed, as a string.
+
+### Demo backend (optional)
+The demo runs without a backend: the device groups and programs in its settings panel come from a bundled snapshot, and there is no Evaluate button. That is how the [public demo](https://pocketix.github.io/iotixng/) is built.
+
+Set `API_BASE_URL` when building or starting the demo to load them from a backend instead and evaluate programs there:
+
+```bash
+API_BASE_URL=http://localhost:3000 npm run start:demo
+```
+
+The Docker image takes it as a build argument: `docker build --build-arg API_BASE_URL=/api .`, then `docker run -e API_URL=<backend URL> ...`. Its nginx forwards `/api` to that backend.
+
+The [example backend](https://github.com/pocketix/iotix/tree/master/example-backend) in the iotix repository implements the API, evaluates programs with iotix-node, and documents the endpoints with examples.
 
 ## **Related Projects**
 - 🔗 [vpl-for-things](https://github.com/pocketix/vpl-for-things) — WIP version of new editor built in Lit compatible with IoTiX v2 language

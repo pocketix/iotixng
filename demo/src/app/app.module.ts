@@ -12,6 +12,7 @@ import {ApiModule} from "./generated/api.module";
 import {FormsModule} from "@angular/forms";
 import {ToastModule} from "primeng/toast";
 import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+import {apiBaseUrl} from "./util/api-base-url";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({ declarations: [
@@ -26,12 +27,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         DialogModule,
         DropdownModule,
         IotixVpModule,
-        ApiModule.forRoot((() => {
-            const fullUrl = window.location.href;
-            const url = new URL(fullUrl);
-            const base = `${url.protocol}//${url.hostname}:${(url.port && url.port !== "80" && url.port !== "443") ? ":3000" : "/api"}`;
-            return { rootUrl: base };
-        })()),
+        ApiModule.forRoot({ rootUrl: apiBaseUrl }),
         FormsModule,
         ToastModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule {

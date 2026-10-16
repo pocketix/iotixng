@@ -117,7 +117,7 @@
 			<p class="m-0"><i class="pi pi-angle-down"></i> - Move expression downwards.</p>
 			<p class="m-0"><i class="pi pi-times"></i> - Remove statement or parameter.</p>
 			<p class="m-0"><i class="pi pi-ellipsis-h"></i> - Open an expression editor.</p>
-			<p class="m-0"><i class="pi pi-bolt"></i> - Execute the program on the backend.</p>
+			<p class="m-0" *ngIf="backend.evaluateAvailable"><i class="pi pi-bolt"></i> - Evaluate the program on the backend and show the triggered capabilities.</p>
 			<p class="m-0"><i class="pi pi-upload"></i> - Persist changes (unavailable in the demo).</p>
 		</p-accordionTab>
 

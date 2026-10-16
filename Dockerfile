@@ -8,6 +8,9 @@ RUN npm install -g npm@11.2.0
 COPY . .
 RUN npm run install:all
 
+# Base URL of the demo backend, e.g. /api with API_URL set at run time (see
+# demo/10-api-url.conf.template). Empty builds the offline demo without Evaluate.
+ARG API_BASE_URL=""
 RUN npm run build:demo
 
 # Stage 2: Serve the React app using Nginx

@@ -1,5 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
-import { Toast } from 'primeng/toast';
+import { Component } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { defaultProgram } from './util/defaultProgram';
 import { defaultMetaLanguage } from './util/defaultMetaLanguage';
@@ -12,7 +11,7 @@ import {
     IoTiXVPStatementLanguage,
     IoTiXVPVariable
 } from "iotixng";
-import {ProgramService} from "./generated/services/program.service";
+import { DemoBackend } from './util/backend';
 
 @Component({
     selector: 'app-root',
@@ -28,9 +27,7 @@ export class AppComponent {
     variables: IoTiXVPVariable[] = [];
     evaluateButtonEnabled = false;
 
-    @ViewChild('toast') toast: Toast | undefined;
-
-    constructor(private messageService: MessageService, private programService: ProgramService) {
+    constructor(private messageService: MessageService, public backend: DemoBackend) {
 
     }
 
@@ -56,10 +53,18 @@ export class AppComponent {
             this.program, this.capabilities, this.variables
         );
 
-        this.programService.v1RunProgram(evaluableProgram).toPromise().then((value: any) => {
+        this.backend.runProgram(evaluableProgram).then(value => {
             const commands = serializedToReadableCapabilityAndVariablesReplacer(
-                value, this.capabilities, this.variables
+                value as any, this.capabilities, this.variables
             );
+
+            if (!commands.length) {
+                this.messageService.add({
+                    severity: 'info',
+                    summary: 'Triggered capabilities',
+                    detail: 'The program triggered no capabilities.'
+                });
+            }
 
             for (const command of commands) {
                 this.messageService.add({
@@ -68,6 +73,10 @@ export class AppComponent {
                     detail: `Triggered capability ${command.name} with parameters ${JSON.stringify(command.params)}`
                 });
             }
-        }).catch(error => console.error(error));
+        }).catch(error => this.messageService.add({
+            severity: 'error',
+            summary: 'Evaluation failed',
+            detail: error.error?.message ?? error.message
+        }));
     }
 }

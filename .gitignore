@@ -50,3 +50,5 @@ testem.log
 cypress/videos
 cypress/screenshots
 cypress/downloads
+# generated from API_BASE_URL by scripts/write-api-base-url.js
+demo/src/app/util/api-base-url.ts

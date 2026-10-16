@@ -1,4 +1,4 @@
-<p-toast #toast position="bottom-center"></p-toast>
+<p-toast position="bottom-center"></p-toast>
 
 <div class="heading-content">
 	<h1>IoTiXng</h1>
@@ -14,7 +14,7 @@
 		[language]="metaLanguage"
 		[program]="program"
 		(onProgramChange)="onProgramChange($event)">
-	<div menu>
+	<div menu *ngIf="backend.evaluateAvailable">
 		<button pButton icon="pi pi-bolt" (click)="onProgramTrigger()" [disabled]="!evaluateButtonEnabled"></button>
 	</div>
 </iotix-vp-program>
