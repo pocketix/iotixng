@@ -20,4 +20,5 @@ export type IoTiXVPCommand = IoTiXVPAbstractStatement & {
     params: IoTiXVPExpression[]
 }
 
-export type IoTiXVPExpression = number | string | boolean; // TODO
+// Conditions and command params are stored as strings, same as the React editor
+export type IoTiXVPExpression = string;

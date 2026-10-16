@@ -1,5 +1,5 @@
 # **iotixng**
-A block- and form-based visual programming editor for smart home automation built for Angular [Try it out](https://pocketixng.iot.petr-john.cz/)!
+A block- and form-based visual programming editor for smart home automation built for Angular [Try it out](https://pocketixng.pocketix.org/)!
 
 ## **Overview**
 **iotixng** is part of the broader **IoTiX** project — a visual programming language (VPL) designed for automating IoT and smart home devices. It enables users to design automation flows through drag-and-drop blocks and configurable forms, making it approachable for non-programmers.

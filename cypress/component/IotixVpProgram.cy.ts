@@ -65,8 +65,8 @@ describe("IotixVpProgramComponent (shared cross-repo scenarios)", () => {
     scenarios.rootAddButtonRendersWithoutCrashing(sel);
   });
 
-  // Regression test for the "_" root-statement crash bug (see main report:
-  // iotix-vp-block.component.html's root "+" button read
+  // Regression test for the "_" root-statement crash bug
+  // (iotix-vp-block.component.html's root "+" button read
   // language.statements[parent.name] with no `?.` guard, unlike every other
   // lookup in the same template).
   it("does not crash when the language has no '_' root entry", () => {
@@ -75,8 +75,8 @@ describe("IotixVpProgramComponent (shared cross-repo scenarios)", () => {
   });
 });
 
-// Regression test for "IotixVpProgramComponent has zero @Output()s" (see
-// main report: the host app had no way to be notified of program changes at
+// Regression test for "IotixVpProgramComponent has zero @Output()s"
+// (the host app had no way to be notified of program changes at
 // all - AppComponent.onProgramChange() never fired from actual editing, only
 // when loading a program via the More panel).
 const fullSettings = (manualSync) => ({
@@ -96,8 +96,8 @@ const fullSettings = (manualSync) => ({
   common: { manualSync },
 });
 
-// Regression test for "Save Text->Visual can wipe the entire program" (see
-// main report: actBlock had no initializer and was only ever assigned inside
+// Regression test for "Save Text->Visual can wipe the entire program"
+// (actBlock had no initializer and was only ever assigned inside
 // the 1000ms-debounced input handler - clicking "Save Text" without typing
 // first, or within the debounce window, set program.block to undefined).
 describe("IotixVpTextEditorComponent actBlock initialization", () => {
@@ -200,8 +200,8 @@ describe("IotixVpProgramComponent onProgramChange output", () => {
   });
 });
 
-// Regression test for "undo/redo/text-sync force full tree rebuild" (see
-// main report: iotix-vp-block.component.html's *ngFor had no trackBy, so
+// Regression test for "undo/redo/text-sync force full tree rebuild"
+// (iotix-vp-block.component.html's *ngFor had no trackBy, so
 // Angular's default identity-based tracking tore down and recreated every
 // statement's whole component subtree whenever the block array was replaced
 // wholesale - which undo()/redo() always do, via JSON.parse(JSON.stringify(...))
@@ -248,7 +248,7 @@ describe("IotixVpBlockComponent trackBy across full-array replacements", () => {
 });
 
 // Regression test for "IotixVpBlockComponent mutates its @Input() block
-// in place" (see main report: up()/down()/delete()/add() all called
+// in place" (up()/down()/delete()/add() all called
 // splice()/push()/element-swap directly on the exact array instance passed
 // in as `[block]`, corrupting whatever object the caller happened to hand
 // over - e.g. a shared fixture reused across tests, or any other caller
@@ -279,8 +279,8 @@ describe("IotixVpBlockComponent does not mutate its @Input() block array", () =>
   });
 });
 
-// Regression test for "checkExpression() is a no-op" (see main report:
-// IotixVpExpressionComponent.checkExpression() had a `// TODO evaluate
+// Regression test for "checkExpression() is a no-op"
+// (IotixVpExpressionComponent.checkExpression() had a `// TODO evaluate
 // syntax of expression` stub that unconditionally cleared the error flag,
 // so the already-wired disabled-button/error-styling never actually fired
 // for any input, however malformed).
@@ -311,7 +311,7 @@ describe("IotixVpExpressionComponent syntax validation (shared cross-repo scenar
 });
 
 // Regression test for "IotixVpModule missing exports for text-editor
-// component/pipe" (see main report: IotixVpTextEditorComponent,
+// component/pipe" (IotixVpTextEditorComponent,
 // IotixVpTestposPipe, and IotixVpTostringPipe were all declared in
 // the module but not exported, so a host application importing
 // IotixVpModule could use them internally through
@@ -347,7 +347,7 @@ describe("IotixVpModule exports", () => {
 });
 
 // Regression test for "ngOnChanges switch fallthrough + missing parent/
-// statements cases" (see main report: IoTiXGVPAbstracStatement.ngOnChanges()
+// statements cases" (IoTiXGVPAbstracStatement.ngOnChanges()
 // only recomputed `correctPos` when blockLength/position/language changed,
 // never when `statements` or `parent` changed on their own). This was
 // latent before item 27's trackBy fix (every edit tore down and rebuilt the
@@ -397,7 +397,7 @@ describe("IoTiXGVPAbstracStatement position validity on swap", () => {
 });
 
 // Regression test for "mobile-responsive default state inverted between
-// platforms" (see main report: iotix-react defaults to showing the
+// platforms" (iotix-react defaults to showing the
 // visual editor pane on mobile, iotixng defaulted to showing the text
 // editor pane instead - same product, opposite default behavior on a
 // phone). iotixng's defaults now match react's: visual editor open,
@@ -418,7 +418,7 @@ describe("IotixVpProgramComponent mobile-responsive defaults (shared cross-repo 
 });
 
 // Regression test for "no debounce-timer cleanup on unmount/destroy anywhere,
-// on either platform" (see main report, cross-cutting section). iotix-react's
+// on either platform". iotix-react's
 // TextEditor.cy.tsx already covers the React side (TextEditor.tsx clears its
 // timer on unmount); this covers iotixng's matching fix -
 // IotixVpTextEditorComponent.ngOnDestroy() clears its own debounce timer,
@@ -450,7 +450,7 @@ describe("IotixVpTextEditorComponent debounce timer cleanup", () => {
 });
 
 // Regression test for "no way for the host app to be notified of program
-// changes at all" (see main report), specifically the undo()/redo() paths -
+// changes at all", specifically the undo()/redo() paths -
 // the existing "empty-stack guard" tests above only prove undo()/redo() don't
 // crash on an empty stack, never that a successful undo/redo actually emits
 // onProgramChange so the host's own program reference doesn't go stale.
@@ -517,7 +517,7 @@ describe("IotixVpProgramComponent undo/redo onProgramChange emission", () => {
 });
 
 // Regression test for the other half of "structure-type command params being
-// unrenderable/unbound" (see main report): rendersBoundStructureParamValues
+// unrenderable/unbound": rendersBoundStructureParamValues
 // above only proves the INITIAL bound value renders correctly. This proves
 // editing one of those values actually round-trips all the way out through
 // onProgramChange, not just updating some local/unbound copy.

@@ -5,7 +5,7 @@ import {
 import { createVariablesFromDevice } from './createVariablesFromDevice';
 
 // Regression test for "same whole-JSON substring-replace defect as
-// iotix-react's copy" (see main report: a plain `.replaceAll(id, name)`
+// iotix-react's copy" (a plain `.replaceAll(id, name)`
 // over the whole serialized program has no boundary anchoring, so an
 // id/label that's a string-prefix of another id/label gets partially
 // replaced too).
@@ -37,7 +37,7 @@ describe('capabilityAndVariablesReplacers boundary anchoring', () => {
 });
 
 // Regression test for "capability names are sanitized but variable labels
-// are not" (see main report: createCapabilitiesFromDeviceAndCapabilityTemplate.ts
+// are not" (createCapabilitiesFromDeviceAndCapabilityTemplate.ts
 // strips whitespace/operators/dots from device.deviceName, but
 // createVariablesFromDevice.ts didn't - a variable label containing a
 // space embeds an invalid token into condition strings once its label is
